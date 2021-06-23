@@ -4,35 +4,67 @@
     left: 0;
     z-index: 10;
     position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100vw;
     height: 100vh;
 
     background-color: #2727278e;
+    animation: openmodal 0.3s;
+}
 
+@keyframes openmodal {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 .modal .modal-content {
-    background-color: #282c34;
+    background-color: #333842;
+    display: flex;
+    flex-direction: column;
 
     width: 90%;
     height: 90%;
-    padding: 5rem;
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* justify-content: center; */
-    /* align-items: center; */
+    padding: 1rem;
 }
 
-.modal .form-wraper {
+.modal .modal-content .close-btn {
+    background-color: unset;
+    border: 0;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.5rem;
+    color: #acacac;
+}
+
+.modal .modal-content .close-btn:hover {
+    color: #646464;
+}
+
+
+.modal .form-wrapper {
     display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-grow: 1;
 }
 
-.modal form-wraper form {
-    width: 100%;
+.modal .form-wrapper form {
+    flex-grow: 1;
+    max-width: 800px;
+}
+
+.modal form h1 {
+    color: #fff;
 }
 
 .modal form fieldset {
-    max-width: 800px;
     display: flex;
     flex-direction: column;
     border: 0;
@@ -55,8 +87,6 @@
     padding: 0.4rem;
     border: 0;
     border-radius: 3px;
-    /* outline: 2px solid #071e4b ; */
-    /* outline-color: #0e1e3f; */
 }
 
 .modal form fieldset input:focus {
@@ -65,10 +95,16 @@
 
 .modal form button {
     height: 3rem;
-    margin-top: 0.3rem;
+    margin-top: 2rem;
     width: 100%;
-    background-color: #00b9da;
+    background-color: #00abc9;
+    color: #fff;
+    font-weight: 500;
+    font-size: 1.1rem;
     border: 0;
+    border-radius: 3px;
+
+    transition: background 0.4s;
 }
 
 .modal form button:focus {
@@ -77,10 +113,10 @@
 
 .modal form button:hover {
     outline: unset;
-    background-color: #009cb8;
+    background-color: #0584aa;
 }
 
 .modal form button:active {
     outline: unset;
-    background-color: rgb(2, 158, 185);
+    background-color: #0584aa;
 }

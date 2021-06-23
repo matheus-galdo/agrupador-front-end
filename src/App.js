@@ -5,17 +5,26 @@ import React, { useEffect, useState } from "react";
 import Map from './Map'
 import Modal from './Components/Modal';
 import Banner from './Components/Banner';
-
+import axios from 'axios';
 
 
 function App() {
 
   const [showModal, setShowModal] = useState(false)
   const [geolocation, setGeolocation] = useState({ lat: null, lng: null })
+  const [groups, setGroups] = useState([])
+
 
   useEffect(() => {
     let mounted = true
 
+    axios.get('http://localhost:5000/groups').then(result => setGroups(result.data))
+
+    return () => mounted = false
+  }, [])
+
+  useEffect(() => {
+    let mounted = true
 
     if (mounted) {
       if (navigator.geolocation) {
@@ -46,6 +55,8 @@ function App() {
 
       <section className='map-container'>
         <Map
+          geolocation={geolocation}
+          groups={groups}
           googleMapURL={'https://maps.googleapis.com/maps/api/js?key=AIzaSyAAySiL9ZbhExrMyLD6LZ4XNThqfsMBUuk&v=3.exp&libraries=geometry,drawing,places'}
           loadingElement={<div style={{ height: `100%` }} />}
           containerElement={<div style={{ height: `100%` }} />}

@@ -1,32 +1,38 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { GoogleMap, Marker, withScriptjs, withGoogleMap, InfoWindow } from "react-google-maps"
 
 const Map = (props) => {
 
+    const [selectedGroup, setSelectedGroup] = useState(null)
     useEffect(() => {
 
     }, [])
 
+    console.log(props);
 
     return <GoogleMap
-        defaultZoom={8}
-        defaultCenter={{ lat: -23.7780796, lng: -46.848523512 }}
+        defaultZoom={14}
+        defaultCenter={props.geolocation}
     >
-        <Marker onClick={() => console.log('1')} position={{ lat: -23.7780796, lng: -46.848523512 }}>
 
-            <InfoWindow >
-                <>detalhes</>
-            </InfoWindow>
-        </Marker>
-        <Marker onClick={() => console.log('2')} position={{ lat: -24.7780796, lng: -46.848523512 }}>
-            <InfoWindow
-            // position={{ lat: -25.7780796, lng: -46.848523512 }}
-            ><>detalhes</></InfoWindow>
-        </Marker>
-    
+        {props.groups.map((group, key) => {
+            return <Marker
+                key={key}
+                onClick={() => setSelectedGroup(group)}
+                position={{ lat: group.latitude, lng: group.longitude }}
+            >
 
+                {selectedGroup && <>
+                    {group.id === selectedGroup.id &&
+                        < InfoWindow >
+                            <>{group.name}</>
+                        </InfoWindow>
+                    }
+                </>}
 
-    </GoogleMap>
+            </Marker>
+        })}
+    </GoogleMap >
 }
 
 
