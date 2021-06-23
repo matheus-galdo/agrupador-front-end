@@ -1,9 +1,16 @@
-/* .banner{
-    background-color: #fff;
+ .banner{
+
+    color: #fff;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /*    background-color: #fff;
     top: 0;
     left: 0;
     z-index: 10;
     position: absolute;
     width: 100vw;
-    height: 100vh;
-} */
+    height: 100vh;*/
+} 

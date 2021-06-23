@@ -1,0 +1,57 @@
+.group-marker-description {
+    min-width: 300px;
+    min-height: 180px;
+
+    padding: 0.5rem;
+
+    font-size: 16px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.group-marker-description h1{
+    padding-bottom: 0.4rem;
+    margin-top: 0;
+    border-bottom: 1px solid rgb(122, 122, 122);
+}
+
+.group-marker-description p.description{
+    flex-grow: 1;
+}
+
+
+.group-marker-description .group-btn{
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    width: fit-content;
+
+    display: flex;
+    align-items: center;
+
+    background-color: #20ab48;
+    padding: 0.5rem;
+    border-radius: 3px;
+    transition: background .3s;
+}
+
+.group-marker-description .group-btn:hover, .group-marker-description .group-btn:active{
+    background-color: #1d8f3d;
+}
+
+.group-marker-description .group-btn svg{
+    margin-right: 0.4rem;
+}
+
+.gm-ui-hover-effect{
+    top: 0px !important;
+    right: 5px !important;
+}
+
+.gm-ui-hover-effect img{
+    width: 20px !important;
+    height: 20px !important;
+}
+

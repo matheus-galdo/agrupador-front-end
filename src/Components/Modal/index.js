@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const Modal = ({ show, close, className = null, children = null, geolocation }) => {
+const Modal = ({ show, close, className = null, updateGroupsList, geolocation }) => {
 
     let baseClassName = `modal` + (className ? ` ${className}` : "")
 
@@ -28,7 +28,7 @@ const Modal = ({ show, close, className = null, children = null, geolocation }) 
 
         if (name === "") error = { message: "O campo nome é obrigatório" }
         if (description === "") error = { message: "O campo descrição é obrigatório" }
-        if (invite_url === "") error = { message: "O campo url é obrigatório" }
+        if (invite_url === "") error = { message: "O campo link do convite é obrigatório" }
 
 
         if (error) {
@@ -40,7 +40,6 @@ const Modal = ({ show, close, className = null, children = null, geolocation }) 
             .then(result => {
                 sucess('Grupo criado com sucesso')
                 setTimeout(close, 2500);
-                
                 
                 setName("")
                 setDescription("")
@@ -73,6 +72,8 @@ const Modal = ({ show, close, className = null, children = null, geolocation }) 
                         <label htmlFor='url'>Link do convite do grupo</label>
                         <input onChange={e => setInviteUrl(e.target.value)} id="url" type="url" />
                     </fieldset>
+
+                    <span></span>
 
                     <button onClick={submit} type='submit'>Salvar</button>
 

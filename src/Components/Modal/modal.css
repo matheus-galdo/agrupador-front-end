@@ -1,5 +1,4 @@
 .modal {
-    /* background-color: #fff; */
     top: 0;
     left: 0;
     z-index: 10;
@@ -10,8 +9,9 @@
     width: 100vw;
     height: 100vh;
 
-    background-color: #2727278e;
+    background-color: #272727b2;
     animation: openmodal 0.3s;
+
 }
 
 @keyframes openmodal {
@@ -31,7 +31,9 @@
 
     width: 90%;
     height: 90%;
-    padding: 1rem;
+    padding: 1.6rem;
+    box-shadow: 10px 10px 10px 0px rgba(12, 12, 12, 0.384);
+
 }
 
 .modal .modal-content .close-btn {
@@ -56,12 +58,20 @@
 }
 
 .modal .form-wrapper form {
+    height: 100%;
     flex-grow: 1;
     max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 2rem;
 }
 
 .modal form h1 {
     color: #fff;
+}
+
+.modal .form-wrapper form span {
+    flex-grow: 1;
 }
 
 .modal form fieldset {

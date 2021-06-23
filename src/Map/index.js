@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { GoogleMap, Marker, withScriptjs, withGoogleMap, InfoWindow } from "react-google-maps"
+import MarkerDescripton from "../Components/MarkerDescripton"
 
 const Map = (props) => {
 
@@ -7,8 +8,6 @@ const Map = (props) => {
     useEffect(() => {
 
     }, [])
-
-    console.log(props);
 
     return <GoogleMap
         defaultZoom={14}
@@ -24,8 +23,8 @@ const Map = (props) => {
 
                 {selectedGroup && <>
                     {group.id === selectedGroup.id &&
-                        < InfoWindow >
-                            <>{group.name}</>
+                        <InfoWindow onCloseClick={() => setSelectedGroup(null)}>
+                            <MarkerDescripton group={group} />
                         </InfoWindow>
                     }
                 </>}
