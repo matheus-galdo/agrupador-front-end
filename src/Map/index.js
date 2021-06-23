@@ -1,6 +1,12 @@
+import { useEffect } from "react"
 import { GoogleMap, Marker, withScriptjs, withGoogleMap, InfoWindow } from "react-google-maps"
 
 const Map = (props) => {
+
+    useEffect(() => {
+
+    }, [])
+
 
     return <GoogleMap
         defaultZoom={8}
@@ -17,7 +23,7 @@ const Map = (props) => {
             // position={{ lat: -25.7780796, lng: -46.848523512 }}
             ><>detalhes</></InfoWindow>
         </Marker>
-
+    
 
 
     </GoogleMap>
