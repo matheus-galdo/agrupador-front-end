@@ -7,7 +7,7 @@ import Modal from './Components/Modal';
 import Banner from './Components/Banner';
 import api from './service';
 
-const MAPS_KEY = process.env.REACT_APP_MAPS_KEY || 'AIzaSyC4R6AN7SmujjPUIGKdyao2Kqitzr1kiRg'
+const MAPS_KEY = process.env.REACT_APP_MAPS_API_KEY || 'AIzaSyC4R6AN7SmujjPUIGKdyao2Kqitzr1kiRg'
 const MAPS_URL = `https://maps.googleapis.com/maps/api/js?key=${MAPS_KEY}&v=3.exp&libraries=geometry,drawing,places`
 
 
