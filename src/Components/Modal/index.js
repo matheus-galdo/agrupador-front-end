@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import api from '../../service';
 
 
-const Modal = ({ show, close, className = null, updateGroupsList, geolocation }) => {
+const Modal = ({ defaultData = null, show, close, className = null, updateGroupInList, addNewGroupToGroupList, geolocation }) => {
 
     let baseClassName = `modal` + (className ? ` ${className}` : "")
 
@@ -16,10 +16,23 @@ const Modal = ({ show, close, className = null, updateGroupsList, geolocation })
 
     useEffect(() => { }, [geolocation, show])
 
+    useEffect(() => {
+        let mounted = true
+
+        setName(defaultData ? defaultData.name : "")
+        setDescription(defaultData ? defaultData.description : "")
+        setInviteUrl(defaultData ? defaultData.invite_url : "")
+
+        console.log('aaaa', defaultData);
+
+        return () => mounted = false
+    }, [defaultData, show])
+
+
     const toastError = message => toast.error(message);
     const sucess = message => toast.success(message);
 
-    const submit = ev => {
+    const submit = async ev => {
         ev.preventDefault()
 
         let payload = { name, description, invite_url, latitude: geolocation.lat, longitude: geolocation.lng }
@@ -35,15 +48,35 @@ const Modal = ({ show, close, className = null, updateGroupsList, geolocation })
             return ''
         }
 
-        api.post('http://localhost:5000/groups', payload)
+        if (defaultData) {
+            payload = { ...defaultData, ...payload }
+            console.log(payload);
+
+            await api.patch(`/groups/${payload.id}`, payload)
+                .then(result => {
+                    sucess('Grupo editado com sucesso')
+                    setTimeout(close, 2500);
+
+                    setName("")
+                    setDescription("")
+                    setInviteUrl("")
+                    // console.log(result.data);
+                    updateGroupInList(result.data, true)
+                })
+                .catch(error => toastError(error.response.data.message))
+
+            return
+        }
+
+        api.post('/groups', payload)
             .then(result => {
                 sucess('Grupo criado com sucesso')
                 setTimeout(close, 2500);
-                
+
                 setName("")
                 setDescription("")
                 setInviteUrl("")
-                updateGroupsList(result.data)
+                addNewGroupToGroupList(result.data)
             })
             .catch(error => toastError(error.response.data.message))
     }
@@ -51,7 +84,7 @@ const Modal = ({ show, close, className = null, updateGroupsList, geolocation })
     if (!show) return ''
 
     return <div className={baseClassName}>
-        <ToastContainer position="bottom-right"/>
+        <ToastContainer position="bottom-right" />
         <div className='modal-content'>
             <button className='close-btn' onClick={close}>X</button>
 
@@ -60,17 +93,17 @@ const Modal = ({ show, close, className = null, updateGroupsList, geolocation })
                     <h1>Crie um novo grupo</h1>
                     <fieldset>
                         <label htmlFor='group-name'>Nome do grupo</label>
-                        <input onChange={e => setName(e.target.value)} id="group-name" type="text" />
+                        <input value={name} onChange={e => setName(e.target.value)} id="group-name" type="text" />
                     </fieldset>
 
                     <fieldset>
                         <label htmlFor='description'>Descrição</label>
-                        <textarea onChange={e => setDescription(e.target.value)} id="description"></textarea>
+                        <textarea value={description} onChange={e => setDescription(e.target.value)} id="description"></textarea>
                     </fieldset>
 
                     <fieldset>
                         <label htmlFor='url'>Link do convite do grupo</label>
-                        <input onChange={e => setInviteUrl(e.target.value)} id="url" type="url" />
+                        <input value={invite_url} onChange={e => setInviteUrl(e.target.value)} id="url" type="url" />
                     </fieldset>
 
                     <span></span>

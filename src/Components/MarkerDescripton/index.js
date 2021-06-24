@@ -1,15 +1,24 @@
 import { AiOutlineWhatsApp } from "react-icons/ai";
 import './description.css'
 
-const MarkerDescripton = ({ group }) => {
+const MarkerDescripton = ({ group, ...props }) => {
 
     return <div className='group-marker-description'>
-        <h1>{group.name}</h1>
-        <p className='description'>{group.name}</p>
+        <header>
+            <h1>{group.name}</h1>
+        </header>
 
-        <a className='group-btn' href={group.invite_url} rel="noreferrer" target="_blank">
-            <AiOutlineWhatsApp /> Entrar no grupo
-        </a>
+        <main>
+            <p className='description'>{group.description}</p>
+        </main>
+
+        <footer>
+            <a className='group-btn' href={group.invite_url} rel="noreferrer" target="_blank">
+                <AiOutlineWhatsApp /> Entrar no grupo
+            </a>
+
+            <button onClick={e => props.showModalWithSomeData(group)} className='edit-group-btn'>Editar grupo</button>
+        </footer>
     </div>
 }
 

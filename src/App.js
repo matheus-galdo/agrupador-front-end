@@ -14,10 +14,12 @@ const MAPS_URL = `https://maps.googleapis.com/maps/api/js?key=${MAPS_KEY}&v=3.ex
 function App() {
 
   const [showModal, setShowModal] = useState(false)
+  const [modalDefaultData, setModalDefaultData] = useState(null)
+
   const [geolocation, setGeolocation] = useState({ lat: null, lng: null })
   const [center, setCenter] = useState(null)
   const [groups, setGroups] = useState([null])
-  
+
   useEffect(() => {
     let mounted = true
 
@@ -58,17 +60,45 @@ function App() {
     setGroups([...groups, newGroup])
   }
 
+  const updateGroupInList = updatedGroup => {
+    let groupIndex = groups.indexOf(groups.find(groupItem => groupItem.id === updatedGroup.id))
+    let splicedGroups = [...groups]
+    splicedGroups.splice(groupIndex, 1, updatedGroup)
+    
+    console.log(groups, splicedGroups);
+    setGroups(splicedGroups)
+  }
+
+  
+
   const closeModal = () => {
+    console.log('fechou');
+    setModalDefaultData(null)
     setShowModal(false)
+  }
+
+  const showModalWithSomeData = data => {
+    setShowModal(true)
+    setModalDefaultData(data)
   }
 
   return <>
     <main className='page-container'>
-      
+
       <Banner />
 
       <section className='new-group'>
-        <Modal geolocation={geolocation} updateGroupsList={addNewGroupToGroupList} show={showModal} close={closeModal}></Modal>
+        <Modal
+          defaultData={modalDefaultData}
+          setModalDefaultData={setModalDefaultData}
+
+          geolocation={geolocation}
+          addNewGroupToGroupList={addNewGroupToGroupList}
+          updateGroupInList={updateGroupInList}
+          show={showModal}
+          close={closeModal}
+        />
+
         <button className='add-group-btn' onClick={() => setShowModal(true)}>+ Adicionar novo grupo</button>
       </section>
 
@@ -83,6 +113,7 @@ function App() {
           loadingElement={<div style={{ height: `100%` }} />}
           containerElement={<div style={{ height: `100%` }} />}
           mapElement={<div style={{ height: `100%` }} />}
+          showModalWithSomeData={showModalWithSomeData}
         />
       </section>
 

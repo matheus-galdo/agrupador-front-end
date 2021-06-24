@@ -29,12 +29,16 @@ const Map = (props) => {
                 key={key}
                 onClick={() => setSelectedGroup(group)}
                 position={{ lat: group.latitude, lng: group.longitude }}
+                draggable={true}
+                onDrag={e => {
+                    console.log(e);
+                }}
             >
 
                 {selectedGroup && <>
                     {group.id === selectedGroup.id &&
                         <InfoWindow onCloseClick={() => setSelectedGroup(null)}>
-                            <MarkerDescripton group={group} />
+                            <MarkerDescripton group={group} showModalWithSomeData={props.showModalWithSomeData}/>
                         </InfoWindow>
                     }
                 </>}

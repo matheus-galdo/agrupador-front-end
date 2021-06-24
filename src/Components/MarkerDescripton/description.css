@@ -12,18 +12,24 @@
 
 
 
-.group-marker-description h1{
+.group-marker-description h1 {
     padding-bottom: 0.4rem;
     margin-top: 0;
     border-bottom: 1px solid rgb(122, 122, 122);
 }
 
-.group-marker-description p.description{
+.group-marker-description main {
     flex-grow: 1;
 }
 
+.group-marker-description footer {
+    display: flex;
+    justify-content: space-between;
+}
 
-.group-marker-description .group-btn{
+
+
+.group-marker-description .group-btn {
     color: rgb(255, 255, 255);
     text-decoration: none;
     width: fit-content;
@@ -37,21 +43,42 @@
     transition: background .3s;
 }
 
-.group-marker-description .group-btn:hover, .group-marker-description .group-btn:active{
+.group-marker-description .group-btn:hover,
+.group-marker-description .group-btn:active {
     background-color: #1d8f3d;
 }
 
-.group-marker-description .group-btn svg{
+.group-marker-description .group-btn svg {
     margin-right: 0.4rem;
 }
 
-.gm-ui-hover-effect{
+
+.group-marker-description .edit-group-btn {
+    color: #24a1c7;
+
+    border: 0;
+    
+    display: flex;
+    align-items: flex-end;
+    justify-content:right;
+
+    padding-bottom: 0.1rem;
+
+    background-color: unset;
+    transition: color .2s;
+}
+
+.group-marker-description .edit-group-btn:hover,
+.group-marker-description .edit-group-btn:active {
+    color: #4ecff7;
+}
+
+.gm-ui-hover-effect {
     top: 0px !important;
     right: 5px !important;
 }
 
-.gm-ui-hover-effect img{
+.gm-ui-hover-effect img {
     width: 20px !important;
     height: 20px !important;
 }
-
