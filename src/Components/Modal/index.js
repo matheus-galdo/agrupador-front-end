@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 import './modal.css'
-import axios from 'axios';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import api from '../../service';
 
 
 const Modal = ({ show, close, className = null, updateGroupsList, geolocation }) => {
 
     let baseClassName = `modal` + (className ? ` ${className}` : "")
-
 
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
@@ -36,7 +35,7 @@ const Modal = ({ show, close, className = null, updateGroupsList, geolocation })
             return ''
         }
 
-        axios.post('http://localhost:5000/groups', payload)
+        api.post('http://localhost:5000/groups', payload)
             .then(result => {
                 sucess('Grupo criado com sucesso')
                 setTimeout(close, 2500);
@@ -76,7 +75,7 @@ const Modal = ({ show, close, className = null, updateGroupsList, geolocation })
 
                     <span></span>
 
-                    <button onClick={submit} type='submit'>Salvar</button>
+                    <button onClick={submit} className='submit-btn' type='submit'>Salvar</button>
 
                 </form>
             </div>

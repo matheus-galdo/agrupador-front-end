@@ -28,7 +28,7 @@
     background-color: #333842;
     display: flex;
     flex-direction: column;
-
+    overflow-y: auto;
     width: 90%;
     height: 90%;
     padding: 1.6rem;
@@ -113,7 +113,7 @@
     border-bottom: 2px solid #a5a5a5;
 }
 
-.modal form button {
+.modal form .submit-btn {
     height: 3rem;
     margin-top: 2rem;
     width: 100%;
@@ -128,9 +128,9 @@
 }
 
 
-.modal form button:hover,
-.modal form button:active,
-.modal form button:focus {
+.modal form .submit-btn:hover,
+.modal form .submit-btn:active,
+.modal form .submit-btn:focus {
     outline: unset;
     background-color: #0584aa;
 }

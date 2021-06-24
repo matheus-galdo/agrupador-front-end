@@ -28,7 +28,7 @@
   margin-bottom: 1rem;
 }
 
-.new-group button{
+.new-group .add-group-btn{
   height: 3rem;
   width: 100%;
   background-color: #00abc9;
@@ -42,9 +42,9 @@
 }
 
 
-.new-group button:hover,
-.new-group button:active,
-.new-group button:focus {
+.new-group .add-group-btn:hover,
+.new-group .add-group-btn:active,
+.new-group .add-group-btn:focus {
   outline: unset;
   background-color: #0584aa;
 }
