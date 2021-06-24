@@ -2,27 +2,13 @@ import { useEffect, useState } from "react"
 import { GoogleMap, Marker, withScriptjs, withGoogleMap, InfoWindow } from "react-google-maps"
 import MarkerDescripton from "../Components/MarkerDescripton"
 
-
-
 const Map = (props) => {
 
     const [selectedGroup, setSelectedGroup] = useState(null)
     const [center, setCenter] = useState(props.geolocation)
-    // const [buildCounter, setBuildCounter] = useState(props.geolocation)
 
-
-    // const [mapRef, setMapRef] = useState(null);
-
-
-    // let center = {...props.center} || {...props.geolocation, esse:'acola'}
     let ref = null;
-    useEffect(() => {
-        // console.log('reccareguei os grupos', props.groups.length, props.groups);
-        // setBuildCounter(buildCounter + 1)
-    }, [props.groups])
-
-    // useEffect(() => { }, [buildCounter])
-
+    useEffect(() => { }, [props.groups])
 
     const getCenter = (center) => {
         setCenter({ lat: center.lat(), lng: center.lng() })

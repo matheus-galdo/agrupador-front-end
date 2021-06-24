@@ -9,7 +9,7 @@
 .page-container {
   width: 100vw;
   height: 100vh;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   display: flex;
   flex-direction: column;
@@ -22,6 +22,31 @@
   width: 90%;
   height: 70vh;
   box-shadow: 10px 10px 10px 0px rgba(12, 12, 12, 0.384);
+}
+
+.new-group{
+  margin-bottom: 1rem;
+}
+
+.new-group button{
+  height: 3rem;
+  width: 100%;
+  background-color: #00abc9;
+  color: #fff;
+  font-weight: 500;
+  font-size: 1.1rem;
+  border: 0;
+  border-radius: 3px;
+
+  transition: background 0.4s;
+}
+
+
+.new-group button:hover,
+.new-group button:active,
+.new-group button:focus {
+  outline: unset;
+  background-color: #0584aa;
 }
 
 :root{
