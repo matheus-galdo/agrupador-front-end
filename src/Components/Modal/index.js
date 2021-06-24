@@ -44,6 +44,7 @@ const Modal = ({ show, close, className = null, updateGroupsList, geolocation })
                 setName("")
                 setDescription("")
                 setInviteUrl("")
+                updateGroupsList(result.data)
             })
             .catch(error => toastError(error.response.data.message))
     }
@@ -65,7 +66,7 @@ const Modal = ({ show, close, className = null, updateGroupsList, geolocation })
 
                     <fieldset>
                         <label htmlFor='description'>Descrição</label>
-                        <input onChange={e => setDescription(e.target.value)} id="description" type="text" />
+                        <textarea onChange={e => setDescription(e.target.value)} id="description"></textarea>
                     </fieldset>
 
                     <fieldset>

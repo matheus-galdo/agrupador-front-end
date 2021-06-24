@@ -12,16 +12,22 @@ function App() {
 
   const [showModal, setShowModal] = useState(false)
   const [geolocation, setGeolocation] = useState({ lat: null, lng: null })
-  const [groups, setGroups] = useState([])
+  const [center, setCenter] = useState(null)
+  const [groups, setGroups] = useState([null])
 
 
   useEffect(() => {
     let mounted = true
 
-    axios.get('http://localhost:5000/groups').then(result => setGroups(result.data))
+    if (groups[0] === null && geolocation.lat) {
+      axios.get(`http://localhost:5000/groups?latitude=${geolocation.lat}&longitude=${geolocation.lng}`).then(result => {
+        if (mounted) setGroups(result.data)
+      })
+    }
 
     return () => mounted = false
-  }, [])
+  }, [groups, geolocation])
+
 
   useEffect(() => {
     let mounted = true
@@ -37,6 +43,19 @@ function App() {
     return () => mounted = false
   }, [])
 
+
+  const getGroups = centerCoords => {
+    setCenter(centerCoords)
+    axios.get(`http://localhost:5000/groups?latitude=${centerCoords.lat}&longitude=${centerCoords.lng}`).then(result => {
+      let newGroups = result.data.filter(newGroup => typeof groups.find(group => group.id === newGroup.id) === 'undefined')
+      setGroups([...groups, ...newGroups])
+    })
+  }
+
+  const addNewGroupToGroupList = newGroup => {
+    setGroups([...groups, newGroup])
+  }
+
   const closeModal = () => {
     setShowModal(false)
   }
@@ -48,13 +67,15 @@ function App() {
       <Banner />
 
       <section className='new-group'>
-        <Modal geolocation={geolocation} show={showModal} close={closeModal}></Modal>
+        <Modal geolocation={geolocation} updateGroupsList={addNewGroupToGroupList} show={showModal} close={closeModal}></Modal>
         <button onClick={() => setShowModal(true)}>+ Adicionar novo grupo</button>
       </section>
 
 
       <section className='map-container'>
         <Map
+          center={center}
+          getGroups={getGroups}
           geolocation={geolocation}
           groups={groups}
           googleMapURL={'https://maps.googleapis.com/maps/api/js?key=AIzaSyAAySiL9ZbhExrMyLD6LZ4XNThqfsMBUuk&v=3.exp&libraries=geometry,drawing,places'}
