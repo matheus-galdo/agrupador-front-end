@@ -24,31 +24,6 @@
   box-shadow: 10px 10px 10px 0px rgba(12, 12, 12, 0.384);
 }
 
-.new-group{
-  margin-bottom: 1rem;
-}
-
-.new-group .add-group-btn{
-  height: 3rem;
-  width: 100%;
-  background-color: #00abc9;
-  color: #fff;
-  font-weight: 500;
-  font-size: 1.1rem;
-  border: 0;
-  border-radius: 3px;
-
-  transition: background 0.4s;
-}
-
-
-.new-group .add-group-btn:hover,
-.new-group .add-group-btn:active,
-.new-group .add-group-btn:focus {
-  outline: unset;
-  background-color: #0584aa;
-}
-
 :root{
   font-size: 16px;
 }

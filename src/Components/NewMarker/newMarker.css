@@ -1,0 +1,85 @@
+.new-group-marker {
+    min-width: 300px;
+    min-height: 180px;
+
+    padding: 0.5rem;
+
+    font-size: 16px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.new-group-marker h1 {
+    padding-bottom: 0.4rem;
+    margin-top: 0;
+    border-bottom: 1px solid rgb(122, 122, 122);
+}
+
+.new-group-marker main {
+    flex-grow: 1;
+}
+
+.new-group-marker footer {
+    display: flex;
+    justify-content: space-between;
+}
+  
+
+.new-group-marker .group-btn {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    width: fit-content;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    background-color: #00abc9;
+    padding: 0.5rem;
+    border: 0;
+    border-radius: 3px;
+    transition: background .3s;
+}
+
+.new-group-marker .group-btn:hover,
+.new-group-marker .group-btn:focus,
+.new-group-marker .group-btn:active {
+    outline: unset;
+    background-color: #0584aa;}
+
+.new-group-marker .group-btn svg {
+    margin-right: 0.4rem;
+}
+
+
+.new-group-marker .edit-group-btn {
+    color: #24a1c7;
+
+    border: 0;
+    
+    display: flex;
+    align-items: flex-end;
+    justify-content:right;
+
+    padding-bottom: 0.1rem;
+
+    background-color: unset;
+    transition: color .2s;
+}
+
+.new-group-marker .edit-group-btn:hover,
+.new-group-marker .edit-group-btn:active {
+    color: #4ecff7;
+}
+
+.gm-ui-hover-effect {
+    top: 0px !important;
+    right: 5px !important;
+}
+
+.gm-ui-hover-effect img {
+    width: 20px !important;
+    height: 20px !important;
+}

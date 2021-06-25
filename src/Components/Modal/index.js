@@ -8,6 +8,8 @@ import api from '../../service';
 
 const Modal = ({ defaultData = null, show, close, className = null, updateGroupInList, addNewGroupToGroupList, geolocation }) => {
 
+    console.log(defaultData);
+
     let baseClassName = `modal` + (className ? ` ${className}` : "")
 
     const [name, setName] = useState("")
@@ -19,15 +21,20 @@ const Modal = ({ defaultData = null, show, close, className = null, updateGroupI
     useEffect(() => {
         let mounted = true
 
-        setName(defaultData ? defaultData.name : "")
-        setDescription(defaultData ? defaultData.description : "")
-        setInviteUrl(defaultData ? defaultData.invite_url : "")
-
-        console.log('aaaa', defaultData);
+        if (mounted) {
+            setName(defaultData ? defaultData.name || "" : "")
+            setDescription(defaultData ? defaultData.description || "" : "")
+            setInviteUrl(defaultData ? defaultData.invite_url || "" : "")
+        }
 
         return () => mounted = false
     }, [defaultData, show])
 
+    const clearModalData = () => {
+        setName("")
+        setDescription("")
+        setInviteUrl("")
+    }
 
     const toastError = message => toast.error(message);
     const sucess = message => toast.success(message);
@@ -35,7 +42,7 @@ const Modal = ({ defaultData = null, show, close, className = null, updateGroupI
     const submit = async ev => {
         ev.preventDefault()
 
-        let payload = { name, description, invite_url, latitude: geolocation.lat, longitude: geolocation.lng }
+        let payload = { name, description, invite_url }
         let error = null
 
         if (name === "") error = { message: "O campo nome é obrigatório" }
@@ -48,19 +55,15 @@ const Modal = ({ defaultData = null, show, close, className = null, updateGroupI
             return ''
         }
 
-        if (defaultData) {
+        if ('id' in defaultData) {
             payload = { ...defaultData, ...payload }
-            console.log(payload);
+            console.log('payload edição',  payload);
 
             await api.patch(`/groups/${payload.id}`, payload)
                 .then(result => {
                     sucess('Grupo editado com sucesso')
-                    setTimeout(close, 2500);
-
-                    setName("")
-                    setDescription("")
-                    setInviteUrl("")
-                    // console.log(result.data);
+                    setTimeout(close, 1500);
+                    clearModalData()
                     updateGroupInList(result.data, true)
                 })
                 .catch(error => toastError(error.response.data.message))
@@ -68,14 +71,13 @@ const Modal = ({ defaultData = null, show, close, className = null, updateGroupI
             return
         }
 
+        payload = { ...payload, latitude: defaultData.lat, longitude: defaultData.lng }
+
         api.post('/groups', payload)
             .then(result => {
                 sucess('Grupo criado com sucesso')
-                setTimeout(close, 2500);
-
-                setName("")
-                setDescription("")
-                setInviteUrl("")
+                setTimeout(close, 1500);
+                clearModalData()
                 addNewGroupToGroupList(result.data)
             })
             .catch(error => toastError(error.response.data.message))

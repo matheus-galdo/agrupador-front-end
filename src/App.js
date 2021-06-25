@@ -19,6 +19,7 @@ function App() {
   const [geolocation, setGeolocation] = useState({ lat: null, lng: null })
   const [center, setCenter] = useState(null)
   const [groups, setGroups] = useState([null])
+  const [recentGroup, setRecentGroup] = useState(null)
 
   useEffect(() => {
     let mounted = true
@@ -58,21 +59,20 @@ function App() {
 
   const addNewGroupToGroupList = newGroup => {
     setGroups([...groups, newGroup])
+    setRecentGroup(newGroup)
   }
 
   const updateGroupInList = updatedGroup => {
+    setRecentGroup(updatedGroup)
     let groupIndex = groups.indexOf(groups.find(groupItem => groupItem.id === updatedGroup.id))
     let splicedGroups = [...groups]
     splicedGroups.splice(groupIndex, 1, updatedGroup)
-    
-    console.log(groups, splicedGroups);
     setGroups(splicedGroups)
   }
 
-  
+
 
   const closeModal = () => {
-    console.log('fechou');
     setModalDefaultData(null)
     setShowModal(false)
   }
@@ -87,25 +87,22 @@ function App() {
 
       <Banner />
 
-      <section className='new-group'>
-        <Modal
-          defaultData={modalDefaultData}
-          setModalDefaultData={setModalDefaultData}
+      <Modal
+        defaultData={modalDefaultData}
+        setModalDefaultData={setModalDefaultData}
 
-          geolocation={geolocation}
-          addNewGroupToGroupList={addNewGroupToGroupList}
-          updateGroupInList={updateGroupInList}
-          show={showModal}
-          close={closeModal}
-        />
-
-        <button className='add-group-btn' onClick={() => setShowModal(true)}>+ Adicionar novo grupo</button>
-      </section>
+        geolocation={geolocation}
+        addNewGroupToGroupList={addNewGroupToGroupList}
+        updateGroupInList={updateGroupInList}
+        show={showModal}
+        close={closeModal}
+      />
 
 
       <section className='map-container'>
         <Map
           center={center}
+          recentGroup={recentGroup}
           getGroups={getGroups}
           geolocation={geolocation}
           groups={groups}
