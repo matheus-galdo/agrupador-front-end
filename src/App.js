@@ -82,6 +82,15 @@ function App() {
     setModalDefaultData(data)
   }
 
+  const deleteGroup = group => {
+    api.delete(`groups/${group.id}`).then(result => {
+      let groupIndex = groups.indexOf(groups.find(groupItem => groupItem.id === group.id))
+      let splicedGroups = [...groups]
+      splicedGroups.splice(groupIndex, 1)
+      setGroups(splicedGroups)
+    })
+  }
+
   return <>
     <main className='page-container'>
 
@@ -101,6 +110,7 @@ function App() {
 
       <section className='map-container'>
         <Map
+          deleteGroup={deleteGroup}
           center={center}
           recentGroup={recentGroup}
           getGroups={getGroups}

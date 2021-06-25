@@ -29,8 +29,6 @@ const Map = withGoogleMap((props) => {
     }, [tempMarker, showTempMarkerDetails])
 
 
-    
-
     const getCenter = (center) => {
         setCenter({ lat: center.lat(), lng: center.lng() })
     }
@@ -47,6 +45,7 @@ const Map = withGoogleMap((props) => {
         setSelectedGroup(group)
     }
 
+    // console.log('rebuildei', props.groups);
 
     return <GoogleMap
         onDragEnd={() => props.getGroups(center)}
@@ -71,7 +70,7 @@ const Map = withGoogleMap((props) => {
                 {selectedGroup && <>
                     {group.id === selectedGroup.id &&
                         <InfoWindow onCloseClick={() => setSelectedGroup(null)}>
-                            <MarkerDescripton group={group} showModalWithSomeData={props.showModalWithSomeData} />
+                            <MarkerDescripton deleteGroup={props.deleteGroup} group={group} showModalWithSomeData={props.showModalWithSomeData} />
                         </InfoWindow>
                     }
                 </>}

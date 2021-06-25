@@ -8,8 +8,6 @@ import api from '../../service';
 
 const Modal = ({ defaultData = null, show, close, className = null, updateGroupInList, addNewGroupToGroupList, geolocation }) => {
 
-    console.log(defaultData);
-
     let baseClassName = `modal` + (className ? ` ${className}` : "")
 
     const [name, setName] = useState("")
@@ -57,8 +55,7 @@ const Modal = ({ defaultData = null, show, close, className = null, updateGroupI
 
         if ('id' in defaultData) {
             payload = { ...defaultData, ...payload }
-            console.log('payload edição',  payload);
-
+            
             await api.patch(`/groups/${payload.id}`, payload)
                 .then(result => {
                     sucess('Grupo editado com sucesso')

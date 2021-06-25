@@ -1,15 +1,11 @@
 .group-marker-description {
     min-width: 300px;
     min-height: 180px;
-
     padding: 0.5rem;
-
     font-size: 16px;
-
     display: flex;
     flex-direction: column;
 }
-
 
 
 .group-marker-description h1 {
@@ -27,7 +23,12 @@
     justify-content: space-between;
 }
 
-
+.group-marker-description footer .buttons-container{
+    display: flex;
+    max-width: 110px;
+    flex-grow: 1;
+    /* overflow: hidden; */
+}
 
 .group-marker-description .group-btn {
     color: rgb(255, 255, 255);
@@ -54,24 +55,51 @@
 
 
 .group-marker-description .edit-group-btn {
-    color: #24a1c7;
-
+    background-color: #24a1c7;
+    cursor: pointer;
     border: 0;
-    
+    border-radius: 3px;
+    flex-grow: 1;
+    color: #fff;
+
     display: flex;
-    align-items: flex-end;
-    justify-content:right;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center;
 
-    padding-bottom: 0.1rem;
+    padding: 0.3rem;
 
-    background-color: unset;
-    transition: color .2s;
+    transition: background .2s;
 }
+
+.group-marker-description .edit-group-btn svg{
+    width: 1.4rem;
+    height: 1.4rem;
+}
+
+.group-marker-description .edit-group-btn .name{
+    font-size: 0.75rem;
+    margin: 0.5rem  0 0.2rem 0;
+}
+
 
 .group-marker-description .edit-group-btn:hover,
 .group-marker-description .edit-group-btn:active {
-    color: #4ecff7;
+    background-color: #4ecff7;
 }
+
+
+.group-marker-description .edit-group-btn.delete-group-btn{
+    background-color: #c01313;
+    margin-left: 0.75rem;
+
+}
+
+.group-marker-description .edit-group-btn.delete-group-btn:hover,
+.group-marker-description .edit-group-btn.delete-group-btn:active {
+    background-color: #ff9b9b;
+}
+
 
 .gm-ui-hover-effect {
     top: 0px !important;

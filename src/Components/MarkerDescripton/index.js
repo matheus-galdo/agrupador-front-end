@@ -1,4 +1,6 @@
 import { AiOutlineWhatsApp } from "react-icons/ai";
+import { FaRegTrashAlt, FaEdit } from "react-icons/fa";
+
 import './description.css'
 
 const MarkerDescripton = ({ group, ...props }) => {
@@ -17,7 +19,16 @@ const MarkerDescripton = ({ group, ...props }) => {
                 <AiOutlineWhatsApp /> Entrar no grupo
             </a>
 
-            <button onClick={e => props.showModalWithSomeData(group)} className='edit-group-btn'>Editar grupo</button>
+            <div className='buttons-container'>
+                <button onClick={e => props.showModalWithSomeData(group)} className='edit-group-btn'>
+                    <FaEdit/>
+                    <p className='name'>Editar</p>
+                </button>
+                <button onClick={e => props.deleteGroup(group)} className='edit-group-btn delete-group-btn'>
+                    <FaRegTrashAlt />
+                    <p className='name'>Excluir</p>
+                </button>
+            </div>
         </footer>
     </div>
 }
