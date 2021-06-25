@@ -1,220 +1,70 @@
-import { useCallback, useEffect, useRef, useState } from "react"
-import { GoogleMap, Marker, withScriptjs, withGoogleMap, InfoWindow } from "react-google-maps"
-import MarkerDescripton from "../Components/MarkerDescripton"
-import NewMarker from "../Components/NewMarker"
+import { useEffect, useState } from "react"
+import { withScriptjs } from "react-google-maps"
+import { ImWarning } from 'react-icons/im'
 
-import BluePinMarker from '../assets/img/blue-pin-dark-maps.svg'
+import { parseMapsCoords, getGroupsNearbyUserLocation } from './helperFunctions'
+import useGeolocation from "../Hooks/useGeolocation"
 import api from "../service"
-
-const fakerCoords = {}
+import Map from "./Map"
+import './map.css'
 
 const MAPS_KEY = process.env.REACT_APP_MAPS_API_KEY || 'AIzaSyC4R6AN7SmujjPUIGKdyao2Kqitzr1kiRg'
 const MAPS_URL = `https://maps.googleapis.com/maps/api/js?key=${MAPS_KEY}&v=3.exp&libraries=geometry,drawing,places`
 
-const Map = withGoogleMap((props) => {
+let WrappedMap = withScriptjs(Map)
 
-    const [selectedGroup, setSelectedGroup] = useState(null)
-    const [center, setCenter] = useState(props.geolocation)
-
-    const [tempMarker, setTempMarker] = useState(fakerCoords)
-    const [showTempMarkerDetails, setShowTempMarkerDetails] = useState(false)
-
-
-    // console.log('center', center, props.geolocation);
-    let ref = null;
-
-
-    // useEffect
-
-    useEffect(() => {
-        setShowTempMarkerDetails(false)
-        setTempMarker(fakerCoords)
-        if (props.recentGroup) setSelectedGroup(props.recentGroup)
-    }, [props.groups, props.recentGroup])
-
-
-    // useEffect(() => {
-    //     setCenter(props.geolocation)
-    // }, [props.geolocation])
-
-    useEffect(() => {
-
-    }, [tempMarker, showTempMarkerDetails])
-
-
-    const getCenter = (center) => {
-        setCenter({ lat: center.lat(), lng: center.lng() })
-    }
-
-    const addMarker = ({ ...eventData }) => {
-        setSelectedGroup(null)
-        setShowTempMarkerDetails(true)
-        setTempMarker(eventData.latLng)
-    }
-
-    const selectGroup = group => {
-        setShowTempMarkerDetails(false)
-        setTempMarker(fakerCoords)
-        setSelectedGroup(group)
-    }
-
-
-    return <GoogleMap
-        onDragEnd={() => props.getGroups(ref.getCenter())}
-        defaultZoom={14}
-        defaultCenter={center}
-        onCenterChanged={() => getCenter(ref.getCenter())}
-        ref={mapRef => ref = mapRef}
-        onClick={addMarker}
-    >
-        {props.groups[0] && props.groups.map((group, key) => {
-            return <Marker
-                key={key}
-                onClick={() => selectGroup(group)}
-                position={{ lat: group.latitude, lng: group.longitude }}
-                draggable={true}
-                onDrag={e => {
-                    console.log(e);
-                }}
-
-            >
-
-                {selectedGroup && <>
-                    {group.id === selectedGroup.id &&
-                        <InfoWindow onCloseClick={() => setSelectedGroup(null)}>
-                            <MarkerDescripton deleteGroup={props.deleteGroup} group={group} showModalWithSomeData={props.showModalWithSomeData} />
-                        </InfoWindow>
-                    }
-                </>}
-
-            </Marker>
-        })}
-
-        {tempMarker && <Marker
-            onClick={() => setShowTempMarkerDetails(true)}
-            position={tempMarker}
-            draggable={true}
-            onDragEnd={addMarker}
-            icon={BluePinMarker}
-
-        >
-            {showTempMarkerDetails && <InfoWindow onCloseClick={() => setShowTempMarkerDetails(false)}>
-                <NewMarker coords={tempMarker} showModalWithSomeData={props.showModalWithSomeData} />
-            </InfoWindow>}
-        </Marker>}
-    </GoogleMap >
-})
-
-
-const WrappedMap = withScriptjs(Map)
-
-
-
-
-
-
-
-
-const MapContainer = ({ geolocation, groups, setGroups, showModalWithSomeData, ...props }) => {
+const MapContainer = ({ groups, setGroups, recentGroup, showModalWithSomeData, ...props }) => {
 
     const [center, setCenter] = useState(null)
-    const [recentGroup, setRecentGroup] = useState(null)
+    const userGeolocation = useGeolocation()
 
-
-    console.log('yuhuuu');
-
-
-    const getGroupsNearbyUserLocation = useCallback(async currentCoords => {
-
-        let result = await api.get(`groups?latitude=${currentCoords.lat}&longitude=${currentCoords.lng}`)
-            .then(result => result.data)
-            .catch(err => null)
-
-        return result
-    }, [])
-
-    // console.log('new render', groups, geolocation);
-
-
-    //get groups nearby user location
     useEffect(() => {
         let mounted = true
 
+        console.log('req');
         const fetchGroups = async () => {
-            let initialGroupsNearby = await getGroupsNearbyUserLocation(geolocation)
+            let initialGroupsNearby = await getGroupsNearbyUserLocation(userGeolocation)
             if (initialGroupsNearby) setGroups(initialGroupsNearby)
         }
 
-        if (mounted && geolocation.lat) {
-            fetchGroups()
-        }
+        if (mounted && userGeolocation.lat) fetchGroups()
 
         return () => mounted = false
-    }, [geolocation, getGroupsNearbyUserLocation, setGroups])
+    }, [userGeolocation, setGroups])
 
 
     const deleteGroup = group => {
         api.delete(`groups/${group.id}`).then(result => {
+
+            //memoiza um novo mapa com os markers atuais
+            WrappedMap = withScriptjs(Map)
+
             let groupIndex = groups.indexOf(groups.find(groupItem => groupItem.id === group.id))
             let splicedGroups = [...groups]
-            splicedGroups.splice(groupIndex, 1)
+            let deletedGroup = splicedGroups.splice(groupIndex, 1)
+
+            setCenter(parseMapsCoords(deletedGroup[0]))
             setGroups(splicedGroups)
         })
     }
 
+
     const getGroups = async (centerCoords) => {
-        console.log('oi eu');
-        console.log('current coords', centerCoords);
-
-        centerCoords = { lat: centerCoords.lat(), lng: centerCoords.lng() }
-
+        centerCoords = parseMapsCoords(centerCoords)
         setCenter(centerCoords)
-
         let loadedGroups = await getGroupsNearbyUserLocation(centerCoords)
         let newGroups = loadedGroups.filter(newGroup => typeof groups.find(group => group.id === newGroup.id) === 'undefined')
         setGroups([...groups, ...newGroups])
     }
 
-    const addNewGroupToGroupList = newGroup => {
-        setGroups([...groups, newGroup])
-        setRecentGroup(newGroup)
-    }
-
-    const updateGroupInList = updatedGroup => {
-        setRecentGroup(updatedGroup)
-        let groupIndex = groups.indexOf(groups.find(groupItem => groupItem.id === updatedGroup.id))
-        let splicedGroups = [...groups]
-        splicedGroups.splice(groupIndex, 1, updatedGroup)
-        setGroups(splicedGroups)
-    }
-
-
-    // useEffect(() => {
-    //     let mounted = true
-
-    //     if (groups[0] === null && geolocation.lat) {
-    //         getGroupsNearbyUserLocation(geolocation)
-
-
-    //         // api.get(`groups?latitude=${geolocation.lat}&longitude=${geolocation.lng}`).then(result => {
-    //         //     if (mounted) setGroups(result.data)
-    //         // })
-    //     }
-
-    //     return () => mounted = false
-    // }, [groups, geolocation, getGroupsNearbyUserLocation])
-
-
-
 
     return <section className='map-container'>
-        {geolocation.lat ?
+        {userGeolocation.lat ?
             <WrappedMap
                 deleteGroup={deleteGroup}
-                center={center}
                 recentGroup={recentGroup}
                 getGroups={getGroups}
-                geolocation={geolocation}
+                geolocation={center || userGeolocation}
                 groups={groups}
                 googleMapURL={MAPS_URL}
 
@@ -225,10 +75,11 @@ const MapContainer = ({ geolocation, groups, setGroups, showModalWithSomeData, .
             />
 
             : <div className='coords-not-seeted'>
-                Você precisa permitir o uso de localização para usar este site
+                <ImWarning />
+                <p>Você precisa permitir o uso da localização para visualizar o mapa</p>
             </div>
         }
     </section>
 }
-export { WrappedMap }
+
 export default MapContainer

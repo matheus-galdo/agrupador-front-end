@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import api from '../../service';
 
 
-const Modal = ({ defaultData = null, show, close, className = null, updateGroupInList, addNewGroupToGroupList, geolocation }) => {
+const Modal = ({ defaultData = null, show, close, className = null, updateGroupInList, addNewGroupToGroupList }) => {
 
     let baseClassName = `modal` + (className ? ` ${className}` : "")
 
@@ -14,7 +14,7 @@ const Modal = ({ defaultData = null, show, close, className = null, updateGroupI
     const [description, setDescription] = useState("")
     const [invite_url, setInviteUrl] = useState("")
 
-    useEffect(() => { }, [geolocation, show])
+    useEffect(() => { }, [show])
 
     useEffect(() => {
         let mounted = true
