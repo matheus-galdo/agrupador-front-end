@@ -22,11 +22,11 @@ const MarkerDescripton = ({ group, ...props }) => {
             <div className='buttons-container'>
                 <button onClick={e => props.showModalWithSomeData(group)} className='edit-group-btn'>
                     <FaEdit/>
-                    <p className='name'>Editar</p>
+                    {/* <p className='name'>Editar</p> */}
                 </button>
                 <button onClick={e => props.deleteGroup(group)} className='edit-group-btn delete-group-btn'>
                     <FaRegTrashAlt />
-                    <p className='name'>Excluir</p>
+                    {/* <p className='name'>Excluir</p> */}
                 </button>
             </div>
         </footer>

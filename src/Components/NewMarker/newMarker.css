@@ -1,11 +1,8 @@
 .new-group-marker {
     min-width: 300px;
     min-height: 180px;
-
     padding: 0.5rem;
-
     font-size: 16px;
-
     display: flex;
     flex-direction: column;
 }
@@ -20,6 +17,10 @@
 
 .new-group-marker main {
     flex-grow: 1;
+}
+
+.new-group-marker main .description {
+    color: #6d758a;
 }
 
 .new-group-marker footer {

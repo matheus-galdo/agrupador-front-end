@@ -12,7 +12,7 @@ const NewMarker = ({ coords, ...props }) => {
         </header>
 
         <main>
-            <p className='description'>{coords.lat} {coords.lng}</p>
+            <p className='description'>{Number(coords.lat).toFixed(7)}, {Number(coords.lng).toFixed(7)}</p>
         </main>
 
 
