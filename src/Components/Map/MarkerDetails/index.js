@@ -1,11 +1,12 @@
 import { AiOutlineWhatsApp } from "react-icons/ai";
 import { FaRegTrashAlt, FaEdit } from "react-icons/fa";
 
-import './description.css'
+import './details.css'
+import './newMarker.css'
 
-const MarkerDescripton = ({ group, ...props }) => {
+const MarkerDetails = ({ group, ...props }) => {
 
-    return <div className='group-marker-description'>
+    return <div className='group-marker-details'>
         <header>
             <h1>{group.name}</h1>
         </header>
@@ -22,15 +23,38 @@ const MarkerDescripton = ({ group, ...props }) => {
             <div className='buttons-container'>
                 <button onClick={e => props.showModalWithSomeData(group)} className='edit-group-btn'>
                     <FaEdit/>
-                    {/* <p className='name'>Editar</p> */}
                 </button>
                 <button onClick={e => props.deleteGroup(group)} className='edit-group-btn delete-group-btn'>
                     <FaRegTrashAlt />
-                    {/* <p className='name'>Excluir</p> */}
                 </button>
             </div>
         </footer>
     </div>
 }
 
-export default MarkerDescripton
+
+
+const NewMarkerDetails = ({ coords, ...props }) => {
+
+    if(!('lat' in coords)) return ''
+
+    coords = {lat: coords.lat(), lng: coords.lng()}
+    
+    return <div className='group-marker-details'>
+        <header>
+            <h1>Novo marcador</h1>
+        </header>
+
+        <main>
+            <p className='description'>{Number(coords.lat).toFixed(7)}, {Number(coords.lng).toFixed(7)}</p>
+        </main>
+
+        <footer>
+            <button className='group-btn' onClick={() => props.showModalWithSomeData(coords)}>
+                + Adicionar novo grupo
+            </button>
+        </footer>
+    </div>
+}
+
+export {MarkerDetails, NewMarkerDetails}

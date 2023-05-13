@@ -1,0 +1,24 @@
+.coords-not-seeted {
+    width: 100%;
+    height: 100%;
+    background-color: #e5e3df;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: rgb(86, 90, 99);
+}
+
+.coords-not-seeted svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+.map-container {
+    width: 90%;
+    height: 90vh;
+    flex-shrink: 0;
+    box-shadow: 10px 10px 10px 0px rgba(12, 12, 12, 0.384);
+  }

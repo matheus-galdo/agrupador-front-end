@@ -2,12 +2,9 @@ import './App.css';
 
 import React, { useState } from "react";
 
-import Map from './Map'
+import Map from './Components/Map'
 import Modal from './Components/Modal';
 import Banner from './Components/Banner';
-
-
-
 
 function App() {
 
@@ -30,7 +27,6 @@ function App() {
     splicedGroups.splice(groupIndex, 1, updatedGroup)
     setGroups(splicedGroups)
   }
-
   //==================
 
 
